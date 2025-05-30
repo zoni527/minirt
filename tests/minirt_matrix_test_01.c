@@ -28,7 +28,7 @@ typedef struct t_vec4
 	t_flt	_[4];
 }	t_vec4;
 
-t_m4x4	*multiply_matrix(t_m4x4 const *mult, t_m4x4 *mat)
+t_m4x4	*multiply_matrix_in_place(t_m4x4 const *mult, t_m4x4 *mat)
 {
 	int		m;
 	t_m4x4	original;
@@ -85,7 +85,7 @@ t_m4x4	new_mult_matrix(const t_m4x4 *mat1, const t_m4x4 *mat2)
 	return (new);
 }
 
-t_m4x4	*scale_matrix(t_flt scalar, t_m4x4 *mat)
+t_m4x4	*scale_matrix_in_place(t_flt scalar, t_m4x4 *mat)
 {
 	mat->_[0][0] = scalar * mat->_[0][0];
 	mat->_[0][1] = scalar * mat->_[0][1];
@@ -129,7 +129,7 @@ t_m4x4	new_scaled_matrix(t_flt scalar, t_m4x4 const *mat)
 	return (new);
 }
 
-t_vec4	*scale_vector(t_flt scalar, t_vec4 *vec)
+t_vec4	*scale_vector_in_place(t_flt scalar, t_vec4 *vec)
 {
 	vec->_[0] = scalar * vec->_[0];
 	vec->_[1] = scalar * vec->_[1];
@@ -171,7 +171,7 @@ t_vec4	new_transformed_vector(t_m4x4 const *mat, t_vec4 const *vec)
 	return (new);
 }
 
-t_vec4	*transform_vector(t_m4x4 const *mat, t_vec4 *vec)
+t_vec4	*transform_vector_in_place(t_m4x4 const *mat, t_vec4 *vec)
 {
 	t_vec4	original;
 
@@ -200,7 +200,7 @@ t_m4x4	identity_matrix = {._ = {	{1, 0, 0, 0},
 									{0, 0, 1, 0},
 									{0, 0, 0, 1}}};
 
-void	print_matrix(t_m4x4 *matrix)
+void	print_matrix(t_m4x4 const *matrix)
 {
 	printf("\n%10.2f%10.2f%10.2f%10.2f",		matrix->_[0][0],
 												matrix->_[0][1],
@@ -220,7 +220,7 @@ void	print_matrix(t_m4x4 *matrix)
 												matrix->_[3][3]);
 }
 
-void	print_vector(t_vec4 *vector)
+void	print_vector(t_vec4 const *vector)
 {
 	printf("\n%6.2f",		vector->_[0]);
 	printf("\n%6.2f",		vector->_[1]);
@@ -257,14 +257,14 @@ t_vec4	new_unit_vector(t_vec4 const *vec)
 	return (unit);
 }
 
-t_flt	dot_product(t_vec4 *v1, t_vec4 *v2)
+t_flt	dot_product(t_vec4 const *v1, t_vec4 const *v2)
 {
 	return (v1->_[0] * v2->_[0]
 		+ v1->_[1] * v2->_[1]
 		+ v1->_[2] * v2->_[2]);
 }
 
-t_vec4	cross_product(t_vec4 *v1, t_vec4 *v2)
+t_vec4	cross_product(t_vec4 const *v1, t_vec4 const *v2)
 {
 	t_vec4	new;
 
